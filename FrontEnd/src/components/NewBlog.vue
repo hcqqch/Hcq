@@ -16,19 +16,21 @@
             <input type='file' ref='files' @change='inputChange' id='uploadImg'>
         </el-button>
         <el-card class="writeBlog">
-            <el-input type='textarea' autosize resize='none' placeholder='博客内容' v-model='blogContent'>
-                </el-input>
-                <div class='blogBtns'>
-                    <el-button type='text' @click='dialogVisible=true'>预览</el-button>
-                    <el-button type='primary' @click='submitBlog' v-if='submitBtnVisible'>发布</el-button>
-                    <el-button type='success' @click='updateBlog' v-if='updateBtnVisible'>更新</el-button>
-                </div>
+            <el-input type='textarea' autosize resize='none' placeholder='博客内容' v-model='blogContent' style="min-height:20rem">
+            </el-input>
+            <div class='blogBtns'>
+                <el-button type='info' @click='dialogVisible=true'>预览</el-button>
+                <el-button type='primary' @click='submitBlog' v-if='submitBtnVisible'>发布</el-button>
+                <el-button type='success' @click='updateBlog' v-if='updateBtnVisible'>更新</el-button>
+            </div>
         </el-card>
     </el-card>
 </div>
 </template>
 
 <script>
+import axios from 'axios'
+import config from '../config.json'
 export default {
     data() {
         return {
@@ -36,14 +38,16 @@ export default {
             inputVisible: false,
             inputValue: '',
             blogTags: ['标签一', '标签二', '标签三'],
-            blogContent:'',
-            submitBtnVisible:'false',
-            updateBtnVisible:'false'
+            blogContent: '',
+            uploadUrl: `${config.root}:3000/api/uploadimage`,
+            submitBtnVisible: 'false',
+            updateBtnVisible: 'false',
+            theCookie: document.cookie.match(/key=(.{32})/)[1],
         }
     },
     methods: {
         backOne() {
-            
+
         },
         handleClose(tag) {
             this.blogTags.splice(this.blogTags.indexOf(tag), 1);
@@ -62,13 +66,29 @@ export default {
             this.inputVisible = false;
             this.inputValue = '';
         },
-        inputChange(){
-            
+        inputChange() {
+            const files = document.getElementById("uploadImg").files[0];
+            const reader = new FileReader();
+            reader.addEventListener('load',(ee)=>{
+                const data = {
+                    base64:ee.target.result,
+                    key:this.theCookie
+                };
+                axios.post(this.uploadUrl,{
+                    data
+                }).then(res=>{
+                    const md = `![图片](${config.root}:3000${res.data.path})`;
+                    this.blogContent += md;
+                }).catch(err=>{
+                    console.log(err)
+                })
+            });
+            reader.readAsDataURL(files);
         },
-        submitBlog(){
+        submitBlog() {
 
         },
-        updateBlog(){
+        updateBlog() {
 
         }
     }
@@ -106,18 +126,29 @@ export default {
     margin-top: 20px;
 }
 
-.blogTags .el-tag {
-    margin-right: 0.5rem;
+.el-tag+.el-tag {
+    margin-left: 10px;
 }
 
-.blogTags input {
-    width: 5rem;
-    display: inline-block;
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
 }
 
 .uploadImage {
     width: 4rem;
     height: 24px;
+    left: 45%;
+    top: 20px;
     position: relative;
     border-radius: 3px;
     line-height: 24px;
@@ -135,5 +166,19 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.writeBlog {
+    margin-top: 40px;
+}
+
+.writeBlog textarea {
+    width: 100%;
+    min-height: 20rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 20px;
 }
 </style>
