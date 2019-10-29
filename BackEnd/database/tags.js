@@ -5,7 +5,7 @@ const TagsSchema = new mongoose.Schema({
         type: Array,
         required: true,
     }
-})
+});
 
 const TagsModel = mongoose.model('tags', TagsSchema);
 

@@ -4,7 +4,6 @@ const fs = require('fs');
 const config = require('../config.json');
 const md5 = require('crypto-js/md5');
 
-
 router.route('/')
     .post((req, res) => {
         // Auth the hashed key
@@ -42,7 +41,6 @@ router.route('/')
 
         fs.open(name, "w+", 0644, function(e, fd) {
             if (e) throw e;
-
             fs.write(fd, data, function(e) {
                 if (e) throw e;
                 fs.close(fd, function(err) {

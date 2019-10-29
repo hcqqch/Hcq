@@ -7,7 +7,7 @@ const NewBlogSchema = new mongoose.Schema({
     },
     tags: {
         type: Array,
-        required: true
+        required: false,
     },
     content: {
         type: String,
@@ -15,10 +15,10 @@ const NewBlogSchema = new mongoose.Schema({
     },
     created_at: {
         type: String,
-        required: true
+        required: true,
     }
 });
 
-let NewBlogMdel = mongoose.model('blog', NewBlogSchema);
+let NewBlogModel = mongoose.model('blog', NewBlogSchema);
 
-module.exports = NewBlogMdel;
+module.exports = NewBlogModel;
