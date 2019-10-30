@@ -9,6 +9,7 @@
             </el-tag>
         </template>
     </div>
+    
     <p class='bpTime'>{{blog.created_at}}</p>
     <el-card class='bpCardContent'>
         <vue-markdown :source='blog.content'>
