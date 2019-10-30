@@ -8,7 +8,6 @@ const Auth = resolve => require(['@/components/Auth'], resolve);
 const Blog = resolve => require(['@/components/Blog'], resolve);
 const NewBlog = resolve => require(['@/components/NewBlog'], resolve);
 
-
 Vue.use(Router)
 
 export default new Router({

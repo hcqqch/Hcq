@@ -10,11 +10,11 @@ router.route('/')
         let key = req.body.key;
         const privateKey = config.privateKey;
         const hashedKey = md5(config.passwd + privateKey).toString();
-        if (hashedKey !== key) {
-            res.send({
-                'status': 'failed',
-            });
-        };
+        // if (hashedKey !== key) {
+        //     res.send({
+        //         'status': 'failed',
+        //     });
+        // };
 
         let fsExistsSync = (path) => {
             try {
@@ -41,19 +41,19 @@ router.route('/')
 
         fs.open(name, "w+", 0644, function(e, fd) {
             if (e) throw e;
-            fs.write(fd, data, function(e) {
+            fs.write(fd, data, function() {
                 if (e) throw e;
                 fs.close(fd, function(err) {
                     if (err) {
-                        console.log('Error: close opened image file failed.');
+                        console.log('Error: close opened image file failed');
                         throw err;
+
                     }
                     res.json({
                         'path': name.replace('uploads', ''),
-                    });
-                });
-
-            });
+                    })
+                })
+            })
         });
 
     });

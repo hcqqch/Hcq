@@ -14,11 +14,11 @@ router.route('/')
         let key = data.key;
         const privateKey = config.privateKey;
         const hashedKey = md5(config.passwd + privateKey).toString();
-        if (hashedKey !== key) {
-            res.send({
-                'status': 'failed',
-            });
-        };
+        // if (hashedKey !== key) {
+        //     res.send({
+        //         'status': 'failed',
+        //     });
+        // };
 
         Blog.update({
             '_id': data.id

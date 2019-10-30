@@ -16,11 +16,11 @@ router.route('/')
         let key = data.key;
         const privateKey = config.privateKey;
         const hashedKey = md5(config.passwd + privateKey).toString();
-        if (hashedKey !== key) {
-            res.send({
-                'status': 'failed',
-            });
-        };
+        // if (hashedKey !== key) {
+        //     res.send({
+        //         'status': 'failed',
+        //     });
+        // };
 
         const time = new moment().format().match(/.{10}/)[0];
         let newBlog = new NewBlog({

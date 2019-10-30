@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <el-card class="mainContent">
-        
+        <div class="nav"></div>
     </el-card>
 </div>
 </template>
@@ -10,7 +10,7 @@
 export default {
     data() {
         return {
-
+            
         }
     },
     methods: {
