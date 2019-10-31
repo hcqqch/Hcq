@@ -14,11 +14,11 @@ router.route('/')
         const key = req.body.key;
         const privateKey = config.privateKey;
         const hashedKey = md5(config.passwd + privateKey).toString();
-        if (hashedKey !== key) {
-            res.send({
-                'status': 'failed',
-            });
-        };
+        // if (hashedKey !== key) {
+        //     res.send({
+        //         'status': 'failed',
+        //     });
+        // };
 
         Blog.deleteOne({
             '_id': id

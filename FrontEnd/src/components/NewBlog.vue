@@ -184,7 +184,7 @@ export default {
 }
 
 .box-card {
-    width: 80%;
+    width: 100%;
     position: relative;
     text-align: center;
 }

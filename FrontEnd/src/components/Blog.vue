@@ -38,10 +38,11 @@ export default {
         VueMarkdown
     },
     created() {
-
+        VueMarkdown
     },
     mounted() {
-
+        // this.setState.down({colspan:date});
+        //this.setState.down({colspna:date});
     },
 }
 </script>
