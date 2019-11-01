@@ -7,6 +7,7 @@
                 <el-button :key="index" :type='computedColor(index)' @click='select(tag)'>{{tag}}</el-button>
             </template>
         </div>
+
         <router-link :to='{name:"NewBlog",params:{id:"0"}}'>
             <el-button type='primary' icon='plus' class='writeBtn'>写博客</el-button>
         </router-link>
@@ -131,9 +132,9 @@ export default {
                 this.blogs = blogs;
             }
         },
-        btHome(){
+        btHome() {
             this.$router.push({
-                name:'Home'
+                name: 'Home'
             })
         }
     },
@@ -146,7 +147,7 @@ export default {
         })
     },
     created() {
-        
+
     },
 }
 </script>
