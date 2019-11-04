@@ -11,6 +11,7 @@
         <router-link :to='{name:"NewBlog",params:{id:"0"}}'>
             <el-button type='primary' icon='plus' class='writeBtn'>写博客</el-button>
         </router-link>
+
         <div class='blogInfo'>
             <template v-for='(blog,index) in blogs'>
                 <el-card :key="index" class='blogCard'>
