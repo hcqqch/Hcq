@@ -1,6 +1,7 @@
 <template>
 <div class="container" @click="btHome">
     <el-card class="mainContent">
+        
         <div class="nav">
             <el-button type='primary' v-on:click='select("all")'>全部</el-button>
             <template v-for="(tag,index) in tags">
