@@ -2,7 +2,7 @@
 <div class="homePage">
     <div class="bgImg"></div>
     <div class="content">
-        <input v-model="passwd" @keyup.enter='auth' placeholder="请输入密码2"/>
+        <input class="authInput" v-model="passwd" @keyup.enter='auth' placeholder="请输入密码"/>
     </div>
 </div> 
 
@@ -29,20 +29,22 @@ export default {
                 // data,status,statusText,headers,config,request
                 // alert(JSON.stringify(res));
                 if (res.data.status === 'ok') {
-                        this.$message({
+                    
+                    this.$message({
                             message: '登录成功',
                             type: 'success',
                         });
                         document.cookie = `key=${res.key};path=/;max-age=${60 * 60 * 24 * 7};`;
                         this.passwd = '';
                         this.$router.push({
-                            path: '/',
+                            path: '/login',
                         });
                     } else {
                         this.passwd = '';
                         this.$message.error({
                             message: '登录失败',
                         });
+                        
                     }
             })
         }
@@ -67,7 +69,7 @@ export default {
 	left: 0px;
 	bottom: 0px;
     background-image: url('../assets/boy.jpg');
-    background-size: 100% 100%;
+    /* background-size: 100% 100%; */
     background-repeat: no-repeat;
     opacity: 0.99;
 }
@@ -80,5 +82,15 @@ export default {
 
 .content .cardmt{
 	margin-top: 0.7rem;
+}
+
+.content .authInput{
+    margin-top: 5rem;
+    width: 13rem;
+    height: 1.5rem;
+    opacity: 0.7;
+    padding: 0.2rem 0.5rem;
+    letter-spacing: 1px;
+    font-size: 18px;
 }
 </style>

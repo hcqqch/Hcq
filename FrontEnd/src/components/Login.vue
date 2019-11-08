@@ -1,5 +1,5 @@
 <template>
-<div class="container" @click="btHome">
+<div class="container">
     <el-card class="mainContent">
         <div class="nav">
             <el-button type='primary' v-on:click='select("all")'>全部</el-button>
@@ -132,14 +132,6 @@ export default {
                 });
                 this.blogs = blogs;
             }
-        },
-        btHome(e) {
-            // this.$router.push({
-            //     name: 'Home'
-            // })
-            // this.$message();
-            e.stopPropagation();
-            this.$message('ggg');
         }
     },
     mounted() {
@@ -148,6 +140,15 @@ export default {
             this.blogs = res.data.reverse();
             this.constBlogs = this.blogs;
             this.reComputeTags();
+        });
+
+        var _this = this
+        document.body.addEventListener('click',function(e){
+            if(e.target.id === 'app'){
+                _this.$router.push({
+                    name:'Home'
+                })
+            }
         })
     },
     created() {
