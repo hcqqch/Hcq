@@ -32,6 +32,8 @@
                     </div>
                 </el-card>
             </template>
+            <el-pagination background layout="prev, pager, next" :page-size="pageSize" @current-change="currentChange" :total="total">
+            </el-pagination>
         </div>
     </el-card>
 </div>
@@ -47,6 +49,9 @@ export default {
             blogs: [],
             constBlogs: [],
             selectStatus: 0,
+            page: 1,
+            pageSize: 6,
+            total: 0,
             colors: ['danger', 'warning', 'success', 'info', '', 'primary'],
             getUrl: `${config.root}:3000/api/getblogs`,
             deleteUrl: `${config.root}:3000/api/deleteblog`,
@@ -54,8 +59,8 @@ export default {
         }
     },
     methods: {
-        computedColor() {
-            // return this.colors[index % this.colors.length];
+        computedColor(index) {
+            return this.colors[index % this.colors.length];
         },
         editBlog(blogId) {
             this.$router.push({
@@ -120,33 +125,53 @@ export default {
         select(arr) {
             // 干啥被选标签更新`this.blogs`数据
             if (arr === 'all') {
-                this.blogs = this.constBlogs;
+                axios.get(`${this.getUrl}?page=${this.page}`).then((res) => {
+                    this.blogs = res.data.data.reverse();
+                    this.total = res.data.total;
+                    this.constBlogs = this.blogs;
+                    // this.reComputeTags();
+                });
                 this.selectStatus = 0;
             } else {
                 this.selectStatus = 1;
+                axios.get(this.getUrl).then((res) => {
+                    this.blogs = res.data.data.reverse();
+                    this.total = res.data.total;
+                    this.constBlogs = this.blogs;
+                    // this.reComputeTags();
+                });
                 const blogs = [];
                 this.constBlogs.forEach((ele) => {
                     if (ele.tags.indexOf(arr) >= 0) {
                         blogs.push(ele);
                     }
                 });
+                window.console.log(this.constBlogs);
                 this.blogs = blogs;
+                this.total = blogs.length;
             }
+        },
+        currentChange(val) {
+            this.page = val;
+            this.getBlogs();
+        },
+        getBlogs() {
+            axios.get(`${this.getUrl}?page=${this.page}`).then((res) => {
+                window.console.log(res.data);
+                this.blogs = res.data.data.reverse();
+                this.total = res.data.total;
+                this.constBlogs = this.blogs;
+                this.reComputeTags();
+            });
         }
     },
     mounted() {
-        axios.get(this.getUrl).then((res) => {
-            window.console.log(res.data);
-            this.blogs = res.data.reverse();
-            this.constBlogs = this.blogs;
-            this.reComputeTags();
-        });
-
+        this.getBlogs();
         var _this = this
-        document.body.addEventListener('click',function(e){
-            if(e.target.id === 'app'){
+        document.body.addEventListener('click', function (e) {
+            if (e.target.id === 'app') {
                 _this.$router.push({
-                    name:'Home'
+                    name: 'Home'
                 })
             }
         })

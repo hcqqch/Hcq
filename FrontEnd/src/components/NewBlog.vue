@@ -29,7 +29,6 @@
                 </div>
             </el-dialog>
         </el-card>
-
     </el-card>
 </div>
 </template>
@@ -50,9 +49,9 @@ export default {
             getUrl: `${config.root}:3000/api/getblog`,
             updateUrl: `${config.root}:3000/api/updateblog`,
             uploadUrl: `${config.root}:3000/api/uploadimage`,
-            dialogVisible: 'false',
-            submitBtnVisible: 'false',
-            updateBtnVisible: 'false',
+            dialogVisible: false,
+            submitBtnVisible: true,
+            updateBtnVisible: false,
             fileList: [],
             uploadHeaders: {
                 'Content-Type': '',
@@ -64,7 +63,9 @@ export default {
     },
     methods: {
         backOne() {
-
+            this.$router.push({
+                name: 'Home',
+            });
         },
         handleClose(tag) {
             // window.console.log(tag)
@@ -75,7 +76,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs.saveTagInput.$refs.input.focus();
             });
-
         },
         handleInputConfirm() {
             let inputValue = this.inputValue;
@@ -102,6 +102,8 @@ export default {
                     window.console.log(res)
                     const md = `![图片](${config.root}:3000${res.data.path})`;
                     this.blogContent += md;
+                    window.console.log(this.blogContent);
+                    window.console.log(this.blogContent)
                 })
             });
             reader.readAsDataURL(files);
@@ -128,7 +130,8 @@ export default {
                 blogContent: this.blogContent,
                 key: this.theCookie
             }).then((res) => {
-                if (res.data.status === 200) {
+                window.console.log(res)
+                if (res.status === 200) {
                     this.open('博客更新成功');
                 }
             }).catch(err => {
@@ -144,27 +147,31 @@ export default {
                 name: 'Home',
             });
         },
+
     },
     created() {
         // 0表示写博客，其他情况表示编辑博客
         const id = this.$route.params.id;
         if (id !== '0') {
-            this.submitBtnVisible = false;
+            this.submitBtnVisible = true;
             this.updateBtnVisible = true;
             axios.post(this.getUrl, {
                 id,
                 req: 'preview'
             }).then((res) => {
-                const data = res;
+                const data = res.data;
+                window.console.log(res)
                 this.loading = false;
                 this.title = data.title;
-                this.blogContent = data.blogContent;
+                this.blogContent = data.content;
                 this.blogTags = data.tags;
+
             }).catch(err => {
                 window.console.error('Error: Get the blog error:', err);
             })
         } else {
             this.loading = false;
+            
         }
     },
     components: {

@@ -4,15 +4,18 @@ require('../database/connect');
 const Blog = require('../database/blog');
 
 // send blog data to frontend 
-router.route('/:page')
+router.route('/')
     .get((req, res) => {
+        let query = req.query.page - 1;
+        let pageSize = 6;
+        let total = 0;
         let getBlog = new Promise((resolve, reject) => {
             Blog.find({}, (err, doc) => {
                 if (err) {
                     reject(err);
                 } else {
                     let arr = [];
-                    let obj;
+                    let obj, data;
                     for (blog of doc) {
                         obj = {
                             _id: blog._id,
@@ -21,15 +24,20 @@ router.route('/:page')
                         }
                         arr.push(obj);
                     }
-                    res.json(arr);
+                    var result = [];
+                    for (var i = 0; i < arr.length; i += pageSize) {
+                        result.push(arr.slice(i, i + pageSize));
+                    }
+                    console.log(query != NaN)
+                    if (query != NaN) {
+                        data = Object.assign({ total: arr.length }, { data: result[query] })
+                    } else {
+                        data = Object.assign({ total: arr.length }, { data: arr })
+                    }
+                    res.json(data);
                 }
             });
         });
-        getBlog.then((data) => {
-            res.json(data);
-        }).catch((err) => {
-            console.log('Error: get blog info failed. getblog.js', err);
-        })
     });
 
 module.exports = router;

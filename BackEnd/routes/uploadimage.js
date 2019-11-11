@@ -24,6 +24,7 @@ router.route('/')
             }
             return true;
         }
+
         if (!fsExistsSync('uploads/images')) {
             fs.mkdirSync('uploads');
             fs.mkdirSync('uploads/images');
@@ -47,7 +48,6 @@ router.route('/')
                     if (err) {
                         console.log('Error: close opened image file failed');
                         throw err;
-
                     }
                     res.json({
                         'path': name.replace('uploads', ''),

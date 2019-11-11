@@ -1,6 +1,6 @@
 <template>
 <div class="homePage">
-    <div class="bgImg" :style="clientHeight"></div>
+    <div class="bgImg"></div>
     <div class="content">
         <template v-for="(blog,index) in blogs">
             <el-card :key="index" class='cardmt' shadow="hover">
@@ -16,7 +16,7 @@
                 </div>
             </el-card>
         </template>
-        <el-pagination background layout="prev, pager, next" current-change="currentChange" :total="total">
+        <el-pagination background layout="prev, pager, next" :page-size="pageSize" @current-change="currentChange" :total="total">
         </el-pagination>
     </div>
 </div>
@@ -29,41 +29,31 @@ export default {
     name: 'Home',
     data() {
         return {
-            // clientHeight:{
-            //     height:600
-            // },
-            // height:document.documentElement.clientHeight,
             blogs: [],
             getUrl: `${config.root}:3000/api/getblogs`,
             loading: true,
             page: 1,
+            pageSize:6,
             total: 0
         }
     },
     methods: {
         currentChange(val) {
             this.page = val;
-            this.getBlogs;
+            this.getBlogs();
         },
         getBlogs() {
-            axios.get(this.getUrl)
+            axios.get(`${this.getUrl}?page=${this.page}`)
                 .then((res) => {
                     window.console.log(res)
-                    this.blogs = res.data.reverse();
+                    this.blogs = res.data.data.reverse();
                     this.total = res.data.total;
-                })
-        }
+                }) 
+        },
     },
     created() {
         this.getBlogs();
-    },
-    // mounted() {
-    //     window.addEventListener('scroll',()=>{
-    //         window.console.log(this.height, document.documentElement.scrollTop);
-    //         this.clientHeight.height = `${document.documentElement.scrollTop + this.height}px`;
-    //         window.console.log(this.clientHeight.height)
-    //     })
-    // },
+    }
 }
 </script>
 

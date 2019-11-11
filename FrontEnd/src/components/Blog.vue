@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         backToHome() {
-
+            
         }
     },
     components: {
@@ -41,8 +41,7 @@ export default {
         VueMarkdown
     },
     mounted() {
-        // this.setState.down({colspan:date});
-        //this.setState.down({colspna:date});
+        
     },
 }
 </script>
