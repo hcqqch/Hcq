@@ -19,14 +19,14 @@ router.route('/')
         //         'status': 'failed',
         //     });
         // };
-
+        console.log(data);
         Blog.update({
             '_id': data.id
         }, {
             $set: {
-                'title': data.title,
-                'content': data.content,
-                'tags': data.tags,
+                'title': data.blogTitle,
+                'content': data.blogContent,
+                'tags': data.blogTags,
             }
         }, (err, doc) => {
             err ? res.end() : res.json({

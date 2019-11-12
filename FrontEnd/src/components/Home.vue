@@ -4,7 +4,7 @@
     <div class="content">
         <template v-for="(blog,index) in blogs">
             <el-card :key="index" class='cardmt' shadow="hover">
-                <router-link :to='{name: "NewBlog", params:{id:blog._id}}'>
+                <router-link :to='{name: "Blog", params:{id:blog._id}}'>
                     {{blog.title}}
                 </router-link>
                 <div>

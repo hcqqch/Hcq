@@ -53,12 +53,14 @@ app.use('/api/deleteblog', deleteBlog);
 app.use('/api/updateblog', updateBlog);
 app.use('/api/uploadimage', uploadImage);
 app.use('/api/authkey', authkey);
+// app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
 });
-
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -70,5 +72,10 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
+
+app.use(function() {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+})
 
 module.exports = app;

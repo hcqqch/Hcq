@@ -29,7 +29,7 @@ export default new Router({
         component: NewBlog,
     }, {
         path: '/blog/:id',
-        name: 'Login',
+        name: 'Blog',
         component: Blog,
     }]
 })

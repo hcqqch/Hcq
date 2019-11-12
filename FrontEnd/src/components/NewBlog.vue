@@ -132,7 +132,7 @@ export default {
             }).then((res) => {
                 window.console.log(res)
                 if (res.status === 200) {
-                    this.open('博客更新成功');
+                    this.$message('博客更新成功');
                 }
             }).catch(err => {
                 window.console.error('Failed: submit blog infomation failed.NewBlog.vue.', err);
@@ -147,7 +147,6 @@ export default {
                 name: 'Home',
             });
         },
-
     },
     created() {
         // 0表示写博客，其他情况表示编辑博客
@@ -165,7 +164,6 @@ export default {
                 this.title = data.title;
                 this.blogContent = data.content;
                 this.blogTags = data.tags;
-
             }).catch(err => {
                 window.console.error('Error: Get the blog error:', err);
             })

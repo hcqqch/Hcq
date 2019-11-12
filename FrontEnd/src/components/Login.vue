@@ -16,7 +16,7 @@
             <template v-for='(blog,index) in blogs'>
                 <el-card :key="index" class='blogCard'>
                     <div class='blogLeft'>
-                        <router-link :to='{name: "Blog",params:{id:blog._id}}'>{{blog.title}}</router-link>
+                        <router-link :to='{name: "NewBlog",params:{id:blog._id}}'>{{blog.title}}</router-link>
                         <div class='blogDown'>
                             <div>
                                 <template v-for='(tag,index) in blog.tags'>
@@ -125,6 +125,7 @@ export default {
         select(arr) {
             // 干啥被选标签更新`this.blogs`数据
             if (arr === 'all') {
+                this.page = 1;
                 axios.get(`${this.getUrl}?page=${this.page}`).then((res) => {
                     this.blogs = res.data.data.reverse();
                     this.total = res.data.total;
@@ -177,7 +178,7 @@ export default {
         })
     },
     created() {
-
+        
     },
 }
 </script>
