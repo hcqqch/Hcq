@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         backToHome() {
-
+            
         }
     },
     components: {
